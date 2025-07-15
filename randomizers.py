@@ -1,48 +1,74 @@
 import random
+import statistics
+import math
 
-# giocatori disponibili
-giocatori = [{"nome": "Luca", "livello": 3},
-             {"nome": "Manuel", "livello": 2},
-             {"nome": "Zanna C", "livello": 1},
-             {"nome": "Giulia ex", "livello": 5},
-             {"nome": "Lisa T", "livello": 2},
-             {"nome": "Carlo C", "livello": 4},
-             {"nome": "Valentina98", "livello": 5},
-             {"nome": "Zoppo", "livello": 5},
-             {"nome": "Marta", "livello": 1},
-             {"nome": "Maly", "livello": 5},
-             {"nome": "Gaffeo pallanuoto", "livello": 3},
-             {"nome": "Sara Mauro", "livello": 2},
-             {"nome": "A. Fava", "livello": 2},
-             {"nome": "Federico A.", "livello": 1},
-             {"nome": "Davide B.", "livello": 3},
-             {"nome": "Carlino", "livello": 4},
-             {"nome": "Vittoria G.", "livello": 3},
-             {"nome": "Anna Bosc", "livello": 3},
-             {"nome": "tatuatore chinez", "livello": 4},
-             
-             ]
+# Lista giocatori (1 = forte, 7 = scarso)
+giocatori = [
+    {"nome": "Luca", "livello": 3},
+    {"nome": "Manuel", "livello": 2},
+    {"nome": "Zanna C", "livello": 1},
+    {"nome": "Giulia ex", "livello": 6},
+    {"nome": "Lisa T", "livello": 2},
+    {"nome": "Carlo C", "livello": 5},
+    {"nome": "Valentina98", "livello": 7},
+    {"nome": "Alberto Lentini", "livello": 7},
+    {"nome": "Marta", "livello": 1},
+    {"nome": "Maly", "livello": 7},
+    {"nome": "Gaffeo pallanuoto", "livello": 3},
+    {"nome": "Sara Mauro", "livello": 2},
+    {"nome": "A. Fava", "livello": 2},
+    {"nome": "Federico A.", "livello": 1},
+    {"nome": "Davide B.", "livello": 4},
+    {"nome": "Carlino", "livello": 5},
+    {"nome": "Vittoria G.", "livello": 3},
+    {"nome": "Anna Bosc", "livello": 3},
+    {"nome": "tatuatore chinez", "livello": 5},
+]
 
-# Raggruppa per livello
-gruppi = {1: [], 2: [], 3: [], 4: [], 5: []}
-for g in giocatori:
-    gruppi[g["livello"]].append(g)
+# Input: giocatori per squadra
+giocatori_per_squadra = int(input("Quanti giocatori per squadra? "))
 
-# Mescola ogni gruppo
-for livello in gruppi:
-    random.shuffle(gruppi[livello])
+# Prepara i dati
+totale_giocatori = len(giocatori)
+giocatori_utilizzati = (totale_giocatori // giocatori_per_squadra) * giocatori_per_squadra
+num_squadre = giocatori_utilizzati // giocatori_per_squadra
+giocatori_attivi = giocatori[:giocatori_utilizzati]
+giocatori_esclusi = giocatori[giocatori_utilizzati:]
 
-# Crea 8 squadre
-num_squadre = 8
-squadre = [[] for _ in range(num_squadre)]
+# Funzione: crea squadre da una lista
+def crea_squadre(mixed):
+    return [mixed[i:i+giocatori_per_squadra] for i in range(0, len(mixed), giocatori_per_squadra)]
 
-# Assegna i giocatori alle squadre in modo bilanciato
-for livello in range(5, 0, -1):
-    for i, giocatore in enumerate(gruppi[livello]):
-        squadre[i % num_squadre].append(giocatore)
+# Funzione: calcola deviazione delle medie
+def calcola_deviazione(squadre):
+    medie = [statistics.mean([g["livello"] for g in squadra]) for squadra in squadre]
+    return statistics.stdev(medie)
 
-# Mostra le squadre
-for i, squadra in enumerate(squadre):
-    print(f"\nSquadra {i+1}:")
+# Ricerca della miglior combinazione - DOCTOR STRANGE
+migliore_squadre = None
+deviazione_migliore = float("inf")
+ITERAZIONI = 1000
+
+for _ in range(ITERAZIONI):
+    copia = giocatori_attivi[:]
+    random.shuffle(copia)
+    squadre = crea_squadre(copia)
+    deviazione = calcola_deviazione(squadre)
+    if deviazione < deviazione_migliore:
+        migliore_squadre = squadre
+        deviazione_migliore = deviazione
+
+# Stampa risultato finale
+print(f"\n✅ Miglior combinazione trovata dopo {ITERAZIONI} tentativi")
+print(f"📉 Deviazione standard delle medie: {deviazione_migliore:.3f}")
+
+for i, squadra in enumerate(migliore_squadre):
+    media = statistics.mean([g["livello"] for g in squadra])
+    print(f"\n🏅 Squadra {i+1} (Media livello: {media:.2f}):")
     for g in squadra:
-        print(f"  {g['nome']} (livello {g['livello']})")
+        print(f"  - {g['nome']} (livello {g['livello']})")
+
+if giocatori_esclusi:
+    print(f"\n🚫 Giocatori esclusi ({len(giocatori_esclusi)}):")
+    for g in giocatori_esclusi:
+        print(f"  - {g['nome']} (livello {g['livello']})")
