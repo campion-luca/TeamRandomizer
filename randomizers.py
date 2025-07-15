@@ -25,25 +25,46 @@ giocatori = [
     {"nome": "tatuatore chinez", "livello": 5},
 ]
 
-# Input: giocatori per squadra
+# Ci sono tot. numero di Giocatori che potrebbero essere divisi per :
+# Calcola il numero totale di giocatori
+totale_giocatori = len(giocatori)
+
+# TOTALE GIOCATORI
+print(f"\n🎯 Ci sono {totale_giocatori} giocatori totali.\n")
+print("📊 Possibili divisioni (da 3 a 10 giocatori per squadra):\n")
+
+# POSSIBILI SQUADRE
+for n in range(3, 11):
+    squadre_possibili = totale_giocatori // n
+    restanti = totale_giocatori % n
+    print(f"- {squadre_possibili} squadre da {n} giocatori", end="")
+    if restanti > 0:
+        print(f" (+{restanti} giocatori esclusi)")
+    else:
+        print(" ✅ (divisione perfetta)")
+# -------------------------------------------------------------------
+
+
+# Quanti giocatori per squadra ?
 giocatori_per_squadra = int(input("Quanti giocatori per squadra? "))
 
-# Prepara i dati
+# Calcolo dei dati
 totale_giocatori = len(giocatori)
 giocatori_utilizzati = (totale_giocatori // giocatori_per_squadra) * giocatori_per_squadra
 num_squadre = giocatori_utilizzati // giocatori_per_squadra
 giocatori_attivi = giocatori[:giocatori_utilizzati]
 giocatori_esclusi = giocatori[giocatori_utilizzati:]
 
-# Funzione: crea squadre da una lista
+# Creazione squadre
 def crea_squadre(mixed):
     return [mixed[i:i+giocatori_per_squadra] for i in range(0, len(mixed), giocatori_per_squadra)]
 
-# Funzione: calcola deviazione delle medie
+# Calcolo medie
 def calcola_deviazione(squadre):
     medie = [statistics.mean([g["livello"] for g in squadra]) for squadra in squadre]
     return statistics.stdev(medie)
 
+# ------------------------------------------------------------------------
 # Ricerca della miglior combinazione - DOCTOR STRANGE
 migliore_squadre = None
 deviazione_migliore = float("inf")
