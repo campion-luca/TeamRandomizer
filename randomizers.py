@@ -14,17 +14,33 @@ giocatori = [
     {"nome": "Alberto Lentini", "livello": 7},
     {"nome": "Marta", "livello": 2},
     {"nome": "Maly", "livello": 7},
-    {"nome": "Gaffeo pallanuoto", "livello": 4},
+    {"nome": "Gaffeo pallanuoto", "livello": 3},
     {"nome": "Sara Mauro", "livello": 2},
     {"nome": "A. Fava", "livello": 2},
-    {"nome": "Federico A.", "livello": 1},
-    {"nome": "Davide B.", "livello": 4},
+    # {"nome": "Federico A.", "livello": 1},
+    {"nome": "Davide B.", "livello": 3},
     {"nome": "Carlino", "livello": 5},
     {"nome": "Vittoria G.", "livello": 3},
     {"nome": "Anna Bosc", "livello": 3},
-    {"nome": "tatuatore chinez", "livello": 5},
+    {"nome": "tatuatore chinez", "livello": 4},
     {"nome": "France Ferra", "livello": 4},
-    {"nome": "Comi jr.", "livello": 1},
+    {"nome": "Comi jr.", "livello": 2},
+    {"nome": "Elisabetta Zull", "livello": 6},
+    {"nome": "Cherubin portier", "livello": 4},
+    {"nome": "Edoardo rissa", "livello": 2},
+    {"nome": "ele camminata", "livello": 5},
+    {"nome": "Luca gaffeo", "livello": 3},
+    {"nome": "gaff ?", "livello": 5}, # boh
+    {"nome": "Nick", "livello": 4},
+    {"nome": "Enrico ag interinale", "livello": 2},
+    {"nome": "Kevin", "livello": 5},
+    {"nome": "Alessandro schiacciatore", "livello": 1},
+    {"nome": "Andrea ?", "livello": 5}, # boh
+    {"nome": "Angela", "livello": 5},
+    {"nome": "Andrea Favero", "livello": 2},
+    {"nome": "Gaia torneo", "livello": 2},
+    {"nome": "Riccardo Chiaccherini", "livello": 4},
+    {"nome": "Giada bassotto", "livello": 7},
 ]
 
 
@@ -78,7 +94,7 @@ def calcola_deviazione(squadre):
 
 # -------------------------------------------------------------
 # DOCTOR STRANGE
-ITERAZIONI = 1000
+ITERAZIONI = 2000
 migliore_squadre = None
 deviazione_migliore = float("inf")
 
